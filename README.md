@@ -1,2 +1,2 @@
 # I-Trade
-It is a trading website
+A trading web application to make trading buttery
