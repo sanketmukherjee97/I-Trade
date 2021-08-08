@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order</title>
+</head>
+<body>
+    <h1>This is order page</h1>
+    <h3>{{stocks.stock}}</h3>
+    <h3>Order</h3>
+    <form action="{% url 'order' user.id user.session_token stocks.id %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="b_price" placeholder="Buying Price"><br>
+        <input type="text" name="b_qun" placeholder="Buying Quantity"><br>
+        <input type="text" name="btime" placeholder="Time in Force"><br>
+        <br>
+        <input type="text" name="s_price" placeholder="Selling Price"><br>
+        <input type="text" name="s_qun" placeholder="Selling Quantity"><br>
+        <input type="text" name="stime" placeholder="Time in Force"><br>
+        <br>
+        <input type="submit" name="submit" value="Save">
+    </form>
+    <br><br><br>
+    <table style="width:50%" >
+        <tr>
+            <th>Stock</th>
+            <th>Buying Price</th>
+            <th>Selling Price</th>
+            <th>Buying Quantity</th>
+            <th>Selling Quantity</th>
+        </tr>
+    </table>
+        <ul>
+            {% for order in orders %}
+            <li>
+                <table style="width:50%"> 
+                    <tr>
+                        <td>{{order.stock}}</td>
+                        <td>{{order.b_p}}</td>
+                        <td>{{order.s_p}}</td>
+                        <td>{{order.bquantity}}</td>
+                        <td>{{order.squantity}}</td>
+                    </tr>
+                    <form action="{% url 'buy' user.id order.stock %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Buy">
+                    </form>
+                    <form action="{% url 'sell' user.id order.stock %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Sell">
+                    </form>
+                    <form action="{% url 'auto' user.id order.stock %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Auto">
+                    </form>
+                </table>
+            </li>
+            {% endfor %}
+        </ul>
+    </table>
+</body>
+</html>

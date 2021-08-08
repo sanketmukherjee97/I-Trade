@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Home</h1>
+    <h2>Welcome to i-trade</h2>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' user.id %}">Logout</a>
+        <a href="{% url 'dashboard' user.id user.session_token %}">Go to dash board</a>
+
+    {% else %}
+    <ul>
+        <li><a href="accounts/register">Register</a></li>
+        <li><a href="accounts/login">Login</a></li>
+    </ul>
+    {% endif %}
+
+</body>
+</html>

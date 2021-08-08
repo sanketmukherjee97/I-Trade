@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to dash board</h1>
+    {% if user.is_authenticated %}
+    <form action="{% url 'stock' user.id %}" method="POST">
+        {% csrf_token %}
+        <label for="stocks">Choose stock:</label>
+        <select name="stocks" aria-placeholder="----">
+            <option value="aapl">AAPL</option>
+            <option value="tsla">TSLA</option>
+            <option value="msft">MSFT</option>
+        </select>
+        <input type="submit", name="submit">
+    </form>
+    <h2>Stock data</h2>
+    <h4 id="app">Price</h4>
+    {% endif %}
+    <ul>
+            {% for stocks in stock %}
+                <li>
+                    <table>
+                        <tr>
+                            <td>{{stocks.stock}}</td>
+                            <td>market price</td>
+                            <td><a href="">Delete</a></td>
+                            <td><a href="{% url 'order' user.id user.session_token stocks.id %}">Trade</a></td>
+                        </tr>
+                    </table>
+                </li>
+            {% endfor %}
+    </ul>
+    <script>
+
+        var socket = new WebSocket("ws://localhost:8000/ws/streamdata/");
+
+        socket.onmessage = function(event){
+            var data = JSON.parse(event.data);
+            console.log(data);
+            document.querySelector('#app').innerText = data.message;
+        }
+
+        socket.onclose = function(event){
+            console.log("close", e);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==3.2.5"
+psycopg2 = "*"
+channels = "*"
+websocket-client = "*"
+celery = {extras = ["redis"], version = "*"}
+requests = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
